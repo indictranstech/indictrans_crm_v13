@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include indictrans_crm *.css
+recursive-include indictrans_crm *.csv
+recursive-include indictrans_crm *.html
+recursive-include indictrans_crm *.ico
+recursive-include indictrans_crm *.js
+recursive-include indictrans_crm *.json
+recursive-include indictrans_crm *.md
+recursive-include indictrans_crm *.png
+recursive-include indictrans_crm *.py
+recursive-include indictrans_crm *.svg
+recursive-include indictrans_crm *.txt
+recursive-exclude indictrans_crm *.pyc
