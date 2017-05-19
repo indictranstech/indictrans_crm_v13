@@ -17,3 +17,8 @@ def set_address(self,method):
 
 def get_user_permission(user):
 	pass
+
+@frappe.whitelist()
+def set_terriotory(customer):
+	terr_ = frappe.db.get_value("Customer",{"name":customer},["territory"])
+	return terr_
