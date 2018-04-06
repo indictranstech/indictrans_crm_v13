@@ -113,10 +113,9 @@ permission_query_conditions = {
 doc_events = {
 	"Sales Invoice":{
 		"before_submit": "indictrans_crm.customisation.set_image",
-		"before_insert" : "indictrans_crm.customisation.set_address"
-
+		"before_insert" : "indictrans_crm.customisation.set_address",
+		"autoname":"indictrans_crm.customisation.autoname"
 	} 
 }
 
 fixtures= ['Custom Script','Property Setter','Custom Field','Print Format']
-
