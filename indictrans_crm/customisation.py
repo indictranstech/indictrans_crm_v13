@@ -26,4 +26,5 @@ def set_terriotory(customer):
 	return terr_
 
 def autoname(doc,method):
-	doc.name = make_autoname(".###")
+	series = doc.naming_series
+	doc.name = make_autoname(series + ".###")
