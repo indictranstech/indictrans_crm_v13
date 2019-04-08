@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.model.naming import make_autoname
-
+import datetime
 
 settings = frappe.get_doc("CRM Settings")
 global_settings = frappe.get_doc("Global Defaults")
@@ -27,4 +27,6 @@ def set_terriotory(customer):
 
 def autoname(doc,method):
 	series = doc.naming_series
-	doc.name = make_autoname(series + ".###")
+	fis_year = frappe.defaults.get_user_default("fiscal_year")
+	doc.name = make_autoname(series + fis_year.split("-")[0] + "-.####")
+	
