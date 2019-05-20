@@ -26,8 +26,7 @@ def set_terriotory(customer):
 	return terr_
 
 def autoname(doc,method):
-	series = doc.naming_series
 	fis_year = frappe.defaults.get_user_default("fiscal_year")
 	fis_year = fis_year.split("-")
-	doc.name = make_autoname("IT" + "/" + fis_year[0]+ "-"+fis_year[1][-2:] + "/" + series + ".####")
+	doc.name = make_autoname("IT" + "/" + fis_year[0]+ "-"+fis_year[1][-2:] + "/" + ".###")
 	
