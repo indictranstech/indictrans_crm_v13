@@ -109,13 +109,24 @@ permission_query_conditions = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "indictrans_crm.event.get_events"
 # }
+doctype_js = {
+    "Appraisal" : "indictrans_crm/hrms/appraisal/appraisal.js",
+    
+    }
 
 doc_events = {
 	"Sales Invoice":{
-		"before_submit": "indictrans_crm.customisation.set_image",
-		"before_insert" : "indictrans_crm.customisation.set_address",
-		"autoname":"indictrans_crm.customisation.autoname"
-	} 
+        "before_submit": "indictrans_crm.customisation.set_image",
+        "before_insert" : "indictrans_crm.customisation.set_address",
+        "autoname":"indictrans_crm.customisation.autoname"
+	},
+        "Salary Slip":{
+        "on_submit": "indictrans_crm.customisation.set_PT_on_sal_slip"
+        },
+        "Appraisal":{
+        "validate": "indictrans_crm.customisation.set_managers_score_on_appraisal"
+        }
+        
 }
 
 fixtures= ['Custom Script','Property Setter','Custom Field','Print Format']
