@@ -56,7 +56,10 @@ def set_managers_score_on_appraisal(doc, method):
 	total = 0
 	if doc:
 		for row in doc.goals:
+			if row.score > 0:
+				row.score = round(row.score)
 			if row.manager_score > 0:
+				row.manager_score = round(row.manager_score)
 				row.score_adjusted = row.manager_score * row.per_weightage / 100
 				total = total + row.score_adjusted
 		if total > 0:
@@ -67,14 +70,10 @@ def set_managers_score_on_appraisal(doc, method):
 @frappe.whitelist()
 def calculate_final_total(self):
 	#print ("IN calculate Final Total for Manager and Normalised")
-	total, total_w = 0, 0
+	total = 0
 	for d in self.get('goals'):
 		if d.score:
 			d.score_adjusted = d.manager_score * d.per_weightage / 100
 			total = total + d.score_adjusted
-			#d.final_score = d.normalised_score * d.per_weightage / 100
-			#total_n = total_n + d.final_score
-			total_w += d.per_weightage
-			
 		self.awarded_total_score = total
 
