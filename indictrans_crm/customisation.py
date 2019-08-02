@@ -63,7 +63,8 @@ def set_managers_score_on_appraisal(doc, method):
 				row.score_adjusted = row.manager_score * row.per_weightage / 100
 				total = total + row.score_adjusted
 		if total > 0:
-			calculate_final_total(doc)
+			doc.awarded_total_score = total
+			#calculate_final_total(doc)
 			
 
 
@@ -72,8 +73,9 @@ def calculate_final_total(self):
 	#print ("IN calculate Final Total for Manager and Normalised")
 	total = 0
 	for d in self.get('goals'):
-		if d.score:
-			d.score_adjusted = d.manager_score * d.per_weightage / 100
+		if d.score_adjusted > 0:
+			#row.manager_score = round(row.manager_score)
+			#d.score_adjusted = d.manager_score * d.per_weightage / 100
 			total = total + d.score_adjusted
 		self.awarded_total_score = total
 
