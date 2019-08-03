@@ -3,6 +3,7 @@ import frappe
 from frappe import _
 from frappe.model.naming import make_autoname
 import datetime
+from frappe.utils import money_in_words
 
 settings = frappe.get_doc("CRM Settings")
 global_settings = frappe.get_doc("Global Defaults")
@@ -33,7 +34,8 @@ def autoname(doc,method):
 @frappe.whitelist()
 def set_PT_on_sal_slip(doc,method):
 	#print ("I am in Salary Slip Customisation")
-	computed_deductions = 0
+	
+	computed_deduction = 0
 	if doc:
 		for row in doc.deductions:
 			if row.salary_component == 'Professional Tax':
@@ -41,21 +43,23 @@ def set_PT_on_sal_slip(doc,method):
 					#print (":--------------------")
 					frappe.db.set_value("Salary Detail", row.name, "amount", 175)
 					row.amount=175
+					computed_deduction = 175
 				elif doc.gross_pay >= 10000.5 and doc.gross_pay < 150000:
 					frappe.db.set_value("Salary Detail", row.name, "amount", 200)
 					row.amount = 200
 					#print (":--------------------")
+					computed_deduction = 200
 				else:
 					frappe.db.set_value("Salary Detail", row.name, "amount", 0)
 					row.amount = 0
 					#print (":--------------------")
-			computed_deductions = computed_deductions + row.amount
-
-			#else:
-				#computed_deduction = computed_deductions + row.amount
-		row.total_deduction = computed_deductions
-		frappe.db.set_value("Salary Slip", row.name, "total_deduction", computed_deductions)
-					
+					computed_deduction = 0
+			
+		#Customisation to set the Total Dedcutions, Net Pay and Rounded Total with Words in Salary Slip DocType
+		doc.total_deduction = doc.get_component_totals("deductions")#computed_deduction
+		doc.net_pay = doc.gross_pay - doc.total_deduction
+		doc.rounded_total = doc.net_pay
+		doc.total_in_words = money_in_words(doc.rounded_total, "INR")
 
 @frappe.whitelist()
 def set_managers_score_on_appraisal(doc, method):

@@ -121,7 +121,7 @@ doc_events = {
         "autoname":"indictrans_crm.customisation.autoname"
 	},
         "Salary Slip":{
-        "on_submit": "indictrans_crm.customisation.set_PT_on_sal_slip"
+        "validate": "indictrans_crm.customisation.set_PT_on_sal_slip"
         },
         "Appraisal":{
         "validate": "indictrans_crm.customisation.set_managers_score_on_appraisal"
