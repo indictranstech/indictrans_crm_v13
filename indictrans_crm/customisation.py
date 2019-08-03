@@ -33,6 +33,7 @@ def autoname(doc,method):
 @frappe.whitelist()
 def set_PT_on_sal_slip(doc,method):
 	#print ("I am in Salary Slip Customisation")
+	computed_deductions = 0
 	if doc:
 		for row in doc.deductions:
 			if row.salary_component == 'Professional Tax':
@@ -48,6 +49,12 @@ def set_PT_on_sal_slip(doc,method):
 					frappe.db.set_value("Salary Detail", row.name, "amount", 0)
 					row.amount = 0
 					#print (":--------------------")
+			computed_deductions = computed_deductions + row.amount
+
+			#else:
+				#computed_deduction = computed_deductions + row.amount
+		row.total_deduction = computed_deductions
+		frappe.db.set_value("Salary Slip", row.name, "total_deduction", computed_deductions)
 					
 
 @frappe.whitelist()
