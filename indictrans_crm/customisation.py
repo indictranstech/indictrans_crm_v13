@@ -34,10 +34,16 @@ def autoname(doc,method):
 @frappe.whitelist()
 def set_PT_on_sal_slip(doc,method):
 	#print ("I am in Salary Slip Customisation")
-	
+	basic_amount  = 0
 	computed_deduction = 0
+	pf_amount = 0
 	if doc:
 		for row in doc.deductions:
+			if row.salary_component == 'Provident Fund':
+				if doc.earnings[0].amount >= 15000:
+					pf_amount = 15000 * 0.12
+					frappe.db.set_value("Salary Detail", row.name, "amount", pf_amount)
+					row.amount = pf_amount
 			if row.salary_component == 'Professional Tax':
 				if doc.gross_pay >= 7500.5 and doc.gross_pay < 10000.5 and doc.gender == 'Male':
 					#print (":--------------------")
