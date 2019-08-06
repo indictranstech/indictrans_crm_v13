@@ -4,6 +4,7 @@ from frappe import _
 from frappe.model.naming import make_autoname
 import datetime
 from frappe.utils import money_in_words
+import math
 
 settings = frappe.get_doc("CRM Settings")
 global_settings = frappe.get_doc("Global Defaults")
@@ -37,6 +38,7 @@ def set_PT_on_sal_slip(doc,method):
 	basic_amount  = 0
 	computed_deduction = 0
 	pf_amount = 0
+	esic_amount = 0
 	if doc:
 		for row in doc.deductions:
 			if row.salary_component == 'Provident Fund':
@@ -60,6 +62,10 @@ def set_PT_on_sal_slip(doc,method):
 					row.amount = 0
 					#print (":--------------------")
 					computed_deduction = 0
+			if row.salary_component == 'E.S.I.C.':
+				esic_amount = math.ceil(row.amount)
+				frappe.db.set_value("Salary Detail", row.name, "amount", esic_amount)
+				row.amount = esic_amount
 			
 		#Customisation to set the Total Dedcutions, Net Pay and Rounded Total with Words in Salary Slip DocType
 		doc.total_deduction = doc.get_component_totals("deductions")#computed_deduction
