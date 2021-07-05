@@ -1,7 +1,7 @@
 [
  {
   "docstatus": 0, 
-  "doctype": "Custom Script", 
+  "doctype": "Client Script", 
   "dt": "Opportunity", 
   "modified": "2017-05-16 13:14:26.634995", 
   "name": "Opportunity-Client", 
